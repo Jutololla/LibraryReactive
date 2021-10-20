@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @Service
 @Validated
 public class UseCaseConsultResourceById implements ConsultResourceById {
@@ -23,6 +25,7 @@ public class UseCaseConsultResourceById implements ConsultResourceById {
 
     @Override
     public Mono<ResourceDTO> findById(String id){
+        Objects.requireNonNull(id, "The object does not exists");
         return resourceRepository.findById(id).map(resourceMapper::mapToDTO);
     }
 

@@ -10,4 +10,10 @@ public interface ResourceRepository extends ReactiveMongoRepository<Resource, St
     @Transactional(readOnly = true)
     Flux<Resource> findByResourceType(String resourceType);
 
+    @Transactional(readOnly = true)
+    Flux<Resource> findByThematic(String thematic);
+
+    @Transactional(readOnly = true)
+    Flux<Resource> findByResourceTypeAndThematic(String resourceType, String Thematic);
+
 }

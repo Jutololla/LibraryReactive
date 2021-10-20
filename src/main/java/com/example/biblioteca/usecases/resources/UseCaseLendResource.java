@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 @Service
 @Validated
-public class UseCaseLendResource implements Function<String, Mono<ResourceDTO>> {
+public class UseCaseLendResource implements Function<String, Mono<String>> {
     private final ResourceRepository resourceRepository;
     private final ResourceMapper resourceMapper;
 
@@ -25,21 +25,18 @@ public class UseCaseLendResource implements Function<String, Mono<ResourceDTO>> 
     }
 
     @Override
-    public Mono<ResourceDTO> apply(String id){
+    public Mono<String> apply(String id){
 
-        var resp = resourceRepository.findById(id)
-                .flatMap(resource -> {
-                    LocalDate date=LocalDate.now();
-                    if(resource.getStatus()){
-                        resource.setStatus(true);
-                        resource.setDate(date.toString());
-                        return resourceRepository.save(resource);
+        return resourceRepository.findById(id).flatMap(
+                resource -> {
+                    if(resource.getQuantityAvailable()>0){
+                        resource.setLoanDate(LocalDate.now());
+                        resource.setQuantityAvailable(resource.getQuantityAvailable()-1);
+                        resource.setQuantityBorrowed(resource.getQuantityBorrowed()+1);
+                        return Mono.just(String.valueOf("The resource's been lent"));
                     }
-                    resource.getStatus();
-                    resource.getDate();
-                    return resourceRepository.save(resource);
-                });
-
-        return null;
+                    return Mono.just(String.valueOf("There are not units to be lent"));
+                }
+        );
     }
 }

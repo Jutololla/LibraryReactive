@@ -23,6 +23,9 @@ public class UseCaseCreateResource implements CreateResource {
 
     @Override
     public Mono<ResourceDTO> apply(ResourceDTO resourceDTO) {
+        if(resourceDTO.isEmpty()){
+            throw new IllegalArgumentException("The resource to create can't be empty");
+        }
         return resourceRepository.save(resourceMapper.mapToEntity(resourceDTO))
                 .map(resourceMapper::mapToDTO);
     }

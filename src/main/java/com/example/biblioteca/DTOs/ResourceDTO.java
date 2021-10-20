@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -13,28 +15,27 @@ import java.util.Objects;
 public class ResourceDTO {
 
     private String id;
-    private String areaThemeId;
-    private String resourceType;
-    private boolean status;
     private String name;
-    private String date;
+    private LocalDate loanDate;
+    private int quantityAvailable;
+    private int quantityBorrowed;
+    private String type;
+    private String thematic;
 
-    @Override
-    public boolean equals (Object o){
-        if(this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ResourceDTO that = (ResourceDTO) o;
-        return status == that.status &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(resourceType, that.resourceType) &&
-                Objects.equals(areaThemeId, that.areaThemeId) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(date, that.date);
+    public boolean isEmpty(){
+        return name.isEmpty() || type.isEmpty() || thematic.isEmpty();
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(id, resourceType, areaThemeId, status, name, date);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResourceDTO)) return false;
+        ResourceDTO that = (ResourceDTO) o;
+        return getQuantityAvailable() == that.getQuantityAvailable() && getQuantityBorrowed() == that.getQuantityBorrowed() && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getLoanDate(), that.getLoanDate()) && Objects.equals(getType(), that.getType()) && Objects.equals(getThematic(), that.getThematic());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getLoanDate(), getQuantityAvailable(), getQuantityBorrowed(), getType(), getThematic());
     }
 }

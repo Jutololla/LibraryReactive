@@ -17,13 +17,11 @@ public class Resource {
 
     @Id
     private String id;
-    private String areaThemeId;
-    private String resourceType;
-    private boolean status;
     private String name;
-    private String date;
+    private LocalDate loanDate;
+    private int quantityAvailable;
+    private int quantityBorrowed;
+    private String type;
+    private String thematic;
 
-    public boolean getStatus() {
-        return this.status;
-    }
 }
