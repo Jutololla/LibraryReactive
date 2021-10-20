@@ -1,6 +1,7 @@
 package com.example.biblioteca.routers.resources;
 
 import com.example.biblioteca.DTOs.ResourceDTO;
+import com.example.biblioteca.usecases.resources.UseCaseRecommendResourceThematic;
 import com.example.biblioteca.usecases.resources.UseCaseRecommendResourceType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +14,12 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class RecommendResourceTypeRouter {
+public class RecommendResourceThematicRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> recommendResourceType(UseCaseRecommendResourceType useCaseRecommendResourceType){
-        return route(GET("/library/resource/recommend/type/{type}").and(accept(MediaType.APPLICATION_JSON)),
+    public RouterFunction<ServerResponse> recommendResourceThematic(UseCaseRecommendResourceThematic useCaseRecommendResourceThematic){
+        return route(GET("/library/resource/recommend/thematic/{thematic}").and(accept(MediaType.APPLICATION_JSON)),
                 request ->ServerResponse.ok()
-                        .body(useCaseRecommendResourceType.apply(request.pathVariable("type")), ResourceDTO.class));
+                        .body(useCaseRecommendResourceThematic.apply(request.pathVariable("thematic")), ResourceDTO.class));
     }
 }
